@@ -1,5 +1,5 @@
 using Unity.XR.CoreUtils.Bindings;
-using UnityEngine.XR.Interaction.Toolkit.AffordanceSystem.State;
+
 using UnityEngine.XR.Interaction.Toolkit.Filtering;
 using UnityEngine.XR.Interaction.Toolkit.Utilities.Tweenables.Primitives;
 
@@ -87,7 +87,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.Hands
             {
                 var interactor = m_HoverInteractable.interactorsHovering[index];
                 var interactionStrength = m_InteractionStrengthInteractable.GetInteractionStrength(interactor);
-                var isPokeProvider = interactor is IPokeStateDataProvider;
+                var isPokeProvider = interactor is AffordanceSystem.State.IPokeStateDataProvider;
                 if (isPokeProvider)
                 {
                     pokeInteractorStrength = interactionStrength;
