@@ -1477,7 +1477,7 @@ MonoBehaviour:
         m_MethodName: set_material
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2100000, guid: 6a65427e9126460429a3c03346c58541, type: 2}
+          m_ObjectArgument: {fileID: 2100000, guid: a0fdd38646ad69a4cb52378337b5c87f, type: 2}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -1564,7 +1564,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.1
-  m_Height: 0.4
+  m_Height: 0.1
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &729325148
@@ -1964,7 +1964,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.13940789
+  m_Radius: 0.1
   m_Center: {x: 0.013035387, y: 0.012035174, z: -0.002728641}
 --- !u!114 &1230243601
 MonoBehaviour:
@@ -2010,7 +2010,7 @@ MonoBehaviour:
         m_MethodName: set_material
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2100000, guid: 89629030eabdee149acf80e8a7de0c78, type: 2}
+          m_ObjectArgument: {fileID: 2100000, guid: 727f87098255ad04987a60f5f08390bc, type: 2}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -2019,7 +2019,19 @@ MonoBehaviour:
         m_CallState: 2
   m_HoverExited:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1230243597}
+        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+        m_MethodName: set_material
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2100000, guid: 89629030eabdee149acf80e8a7de0c78, type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_FirstSelectEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -2131,7 +2143,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.1
+  m_Radius: 0.05
   m_Center: {x: 0.004887663, y: -0.0076668123, z: -0.000047769434}
 --- !u!114 &1254362828
 MonoBehaviour:
