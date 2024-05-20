@@ -13,16 +13,25 @@ public class SendVibrationData : MonoBehaviour
     public void SendVibrationCommand(int[] intensities)
     {
         string url = $"http://{deviceIP}:{port}/vibrate?intensities={intensities[0]},{intensities[1]},{intensities[2]}";
+        Debug.Log("Sending request to URL: " + url); // Log the URL
+
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
         request.Method = "GET";
 
-        using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+        try
         {
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
-                string responseText = reader.ReadToEnd();
-                Debug.Log(responseText); // Optional: Log the response for debugging
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string responseText = reader.ReadToEnd();
+                    Debug.Log("Received response: " + responseText); // Log the response
+                }
             }
+        }
+        catch (WebException ex)
+        {
+            Debug.LogError("Error in sending request: " + ex.Message);
         }
     }
 
