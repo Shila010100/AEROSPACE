@@ -61,6 +61,7 @@ public class SendVibrationData : MonoBehaviour
         {
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
+                Debug.Log("Response status code: " + (int)response.StatusCode);
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
                     string responseText = reader.ReadToEnd();
@@ -71,6 +72,7 @@ public class SendVibrationData : MonoBehaviour
         catch (WebException ex)
         {
             Debug.LogError("Error in sending request: " + ex.Message);
+            Debug.LogError("Status: " + ex.Status);
             if (ex.Response != null)
             {
                 using (var errorResponse = (HttpWebResponse)ex.Response)
