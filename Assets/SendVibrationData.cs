@@ -1,13 +1,34 @@
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 using System.Net;
 using System.IO;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class SendVibrationData : MonoBehaviour
 {
-    public string deviceIP = "192.168.178.42"; // The IP address of the M5StickC Plus 192.168.178.42
+    public string deviceIP = "192.168.178.42"; // The IP address of the M5StickC Plus
     public int port = 8080;
     private XRSimpleInteractable simpleInteractable;
+
+    private void Awake()
+    {
+        simpleInteractable = GetComponent<XRSimpleInteractable>();
+    }
+
+    private void OnEnable()
+    {
+        simpleInteractable.hoverEntered.AddListener(OnHoverEntered);
+    }
+
+    private void OnDisable()
+    {
+        simpleInteractable.hoverEntered.RemoveListener(OnHoverEntered);
+    }
+
+    private void OnHoverEntered(HoverEnterEventArgs args)
+    {
+        Debug.Log("Hover entered"); // Log when hover starts
+        SendVibrationCommand(new int[] { 255, 0, 0 }); // Example: vibrate only the first motor
+    }
 
     // This method sends a vibration command to the M5StickC Plus
     public void SendVibrationCommand(int[] intensities)
@@ -33,25 +54,5 @@ public class SendVibrationData : MonoBehaviour
         {
             Debug.LogError("Error in sending request: " + ex.Message);
         }
-    }
-
-    private void Awake()
-    {
-        simpleInteractable = GetComponent<XRSimpleInteractable>();
-    }
-
-    private void OnEnable()
-    {
-        simpleInteractable.hoverEntered.AddListener(OnHoverEntered);
-    }
-
-    private void OnDisable()
-    {
-        simpleInteractable.hoverEntered.RemoveListener(OnHoverEntered);
-    }
-
-    private void OnHoverEntered(HoverEnterEventArgs args)
-    {
-        SendVibrationCommand(new int[] { 255, 0, 0 }); // Example: vibrate only the first motor
     }
 }
