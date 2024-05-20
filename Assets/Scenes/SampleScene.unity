@@ -1409,7 +1409,7 @@ PrefabInstance:
       addedObject: {fileID: 729325148}
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 0a1cade8f3785a5498483caf954be128, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 729325149}
+      addedObject: {fileID: 729325152}
   m_SourcePrefab: {fileID: 100100000, guid: 0a1cade8f3785a5498483caf954be128, type: 3}
 --- !u!1 &729325134 stripped
 GameObject:
@@ -1592,7 +1592,7 @@ MonoBehaviour:
       m_EnablePokeAngleThreshold: 1
       m_PokeAngleThreshold: 45
     m_Variable: {fileID: 0}
---- !u!114 &729325149
+--- !u!114 &729325152
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1604,6 +1604,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ffe9e805857f374094bebb2ba28232b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deviceIP: 192.168.178.42
+  port: 8080
 --- !u!4 &731810304 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4523268595987150624, guid: 8b4d02b4e05af714dab2a12548a310f8, type: 3}

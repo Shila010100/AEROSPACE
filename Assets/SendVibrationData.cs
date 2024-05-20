@@ -11,26 +11,43 @@ public class SendVibrationData : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Awake called"); // Debug log for Awake
         simpleInteractable = GetComponent<XRSimpleInteractable>();
+        if (simpleInteractable != null)
+        {
+            Debug.Log("XR Simple Interactable found");
+            simpleInteractable.hoverEntered.AddListener(OnHoverEntered);
+        }
+        else
+        {
+            Debug.LogError("XRSimpleInteractable component not found!");
+        }
     }
 
     private void OnEnable()
     {
-        simpleInteractable.hoverEntered.AddListener(OnHoverEntered);
+        Debug.Log("OnEnable called"); // Debug log for OnEnable
+        if (simpleInteractable != null)
+        {
+            simpleInteractable.hoverEntered.AddListener(OnHoverEntered);
+        }
     }
 
     private void OnDisable()
     {
-        simpleInteractable.hoverEntered.RemoveListener(OnHoverEntered);
+        Debug.Log("OnDisable called"); // Debug log for OnDisable
+        if (simpleInteractable != null)
+        {
+            simpleInteractable.hoverEntered.RemoveListener(OnHoverEntered);
+        }
     }
 
-    private void OnHoverEntered(HoverEnterEventArgs args)
+    public void OnHoverEntered(HoverEnterEventArgs args)
     {
         Debug.Log("Hover entered"); // Log when hover starts
         SendVibrationCommand(new int[] { 255, 0, 0 }); // Example: vibrate only the first motor
     }
 
-    // This method sends a vibration command to the M5StickC Plus
     public void SendVibrationCommand(int[] intensities)
     {
         string url = $"http://{deviceIP}:{port}/vibrate?intensities={intensities[0]},{intensities[1]},{intensities[2]}";
@@ -53,6 +70,26 @@ public class SendVibrationData : MonoBehaviour
         catch (WebException ex)
         {
             Debug.LogError("Error in sending request: " + ex.Message);
+            if (ex.Response != null)
+            {
+                using (var errorResponse = (HttpWebResponse)ex.Response)
+                {
+                    using (var reader = new StreamReader(errorResponse.GetResponseStream()))
+                    {
+                        string errorText = reader.ReadToEnd();
+                        Debug.LogError("Error response: " + errorText);
+                    }
+                }
+            }
         }
+        catch (Exception ex)
+        {
+            Debug.LogError("General exception: " + ex.Message);
+        }
+    }
+
+    private void Update()
+    {
+        Debug.Log("SendVibrationData script is active");
     }
 }
