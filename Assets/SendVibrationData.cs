@@ -46,10 +46,10 @@ public class SendVibrationData : MonoBehaviour
     public void OnHoverEntered(HoverEnterEventArgs args)
     {
         Debug.Log("Hover entered"); // Log when hover starts
-        SendVibrationCommand(new int[] { 255, 0, 0 }); // Example: vibrate only the first motor
+        SendVibrationCommand(new byte[] { 255, 0, 0 }); // Example: vibrate only the first motor
     }
 
-    public void SendVibrationCommand(int[] intensities)
+    public void SendVibrationCommand(byte[] intensities)
     {
         string message = $"GET /vibrate?intensities={intensities[0]},{intensities[1]},{intensities[2]} HTTP/1.1\r\nHost: {deviceIP}:{port}\r\nConnection: close\r\n\r\n";
         Debug.Log("Sending message: " + message); // Log the message
