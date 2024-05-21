@@ -49,22 +49,25 @@ public class SendVibrationData : MonoBehaviour
         SendVibrationCommand(new int[] { 255, 0, 0 }); // Example: vibrate only the first motor
     }
 
-    public void SendVibrationCommand(int[] intensities)
+    public async void SendVibrationCommand(int[] intensities)
     {
         string message = $"GET /vibrate?intensities={intensities[0]},{intensities[1]},{intensities[2]} HTTP/1.1\r\nHost: {deviceIP}:{port}\r\nConnection: close\r\n\r\n";
         Debug.Log("Sending message: " + message); // Log the message
 
         try
         {
-            using (TcpClient client = new TcpClient(deviceIP, port))
+            using (TcpClient client = new TcpClient())
             {
+                await client.ConnectAsync(deviceIP, port);
+                Debug.Log("Connected to server");
+
                 NetworkStream stream = client.GetStream();
                 byte[] data = Encoding.ASCII.GetBytes(message);
-                stream.Write(data, 0, data.Length);
+                await stream.WriteAsync(data, 0, data.Length);
                 Debug.Log("Message sent to server");
 
                 byte[] responseData = new byte[256];
-                int bytes = stream.Read(responseData, 0, responseData.Length);
+                int bytes = await stream.ReadAsync(responseData, 0, responseData.Length);
                 string response = Encoding.ASCII.GetString(responseData, 0, bytes);
                 Debug.Log("Received response: " + response);
             }
