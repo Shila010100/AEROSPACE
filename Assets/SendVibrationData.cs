@@ -1,12 +1,12 @@
 using UnityEngine;
 using System;
-using System.Net;
-using System.IO;
+using System.Net.Sockets;
+using System.Text;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class SendVibrationData : MonoBehaviour
 {
-    public string deviceIP = "192.168.4.1"; // The IP address of the M5StickC Plus
+    public string deviceIP = "192.168.4.1"; // The IP address of the M5StickC Plus for WiFi Direct
     public int port = 8080;
     private XRSimpleInteractable simpleInteractable;
 
@@ -51,45 +51,31 @@ public class SendVibrationData : MonoBehaviour
 
     public void SendVibrationCommand(int[] intensities)
     {
-        string url = $"http://{deviceIP}:{port}/vibrate?intensities={intensities[0]},{intensities[1]},{intensities[2]}";
-        Debug.Log("Sending request to URL: " + url); // Log the URL
-
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-        request.Method = "GET";
-        Debug.Log("Request created, attempting to get response"); // Added debug log
+        string message = $"GET /vibrate?intensities={intensities[0]},{intensities[1]},{intensities[2]} HTTP/1.1\r\nHost: {deviceIP}:{port}\r\nConnection: close\r\n\r\n";
+        Debug.Log("Sending message: " + message); // Log the message
 
         try
         {
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (TcpClient client = new TcpClient(deviceIP, port))
             {
-                Debug.Log("Response status code: " + (int)response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    string responseText = reader.ReadToEnd();
-                    Debug.Log("Received response: " + responseText); // Log the response
-                }
+                NetworkStream stream = client.GetStream();
+                byte[] data = Encoding.ASCII.GetBytes(message);
+                stream.Write(data, 0, data.Length);
+                Debug.Log("Message sent to server");
+
+                byte[] responseData = new byte[256];
+                int bytes = stream.Read(responseData, 0, responseData.Length);
+                string response = Encoding.ASCII.GetString(responseData, 0, bytes);
+                Debug.Log("Received response: " + response);
             }
         }
-        catch (WebException ex)
+        catch (SocketException ex)
         {
-            Debug.LogError("Error in sending request: " + ex.Message);
-            Debug.LogError("Status: " + ex.Status);
-            Debug.LogError("Response: " + ex.Response);
-            if (ex.Response != null)
-            {
-                using (var errorResponse = (HttpWebResponse)ex.Response)
-                {
-                    using (var reader = new StreamReader(errorResponse.GetResponseStream()))
-                    {
-                        string errorText = reader.ReadToEnd();
-                        Debug.LogError("Error response: " + errorText);
-                    }
-                }
-            }
+            Debug.LogError("SocketException: " + ex.Message);
         }
         catch (Exception ex)
         {
-            Debug.LogError("General exception: " + ex.Message);
+            Debug.LogError("Exception: " + ex.Message);
         }
     }
 
