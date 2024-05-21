@@ -5,7 +5,7 @@ using System.Text;
 
 public class TestNetworkRequest : MonoBehaviour
 {
-    public string deviceIP = "192.168.4.1"; // The IP address of the M5StickC Plus for WiFi Direct
+    public string deviceIP = "192.168.178.42"; // The IP address of the M5StickC Plus for WiFi Direct
     public int port = 8080;
 
     private void Start()
@@ -22,8 +22,17 @@ public class TestNetworkRequest : MonoBehaviour
         try
         {
             Debug.Log("Attempting to connect to " + deviceIP + " on port " + port);
-            using (TcpClient client = new TcpClient(deviceIP, port))
+            using (TcpClient client = new TcpClient())
             {
+                client.Connect(deviceIP, port);
+
+                if (!client.Connected)
+                {
+                    Debug.LogError("Failed to connect to the server.");
+                    return;
+                }
+                Debug.Log("Connected to the server successfully.");
+
                 NetworkStream stream = client.GetStream();
                 byte[] data = Encoding.ASCII.GetBytes(message);
                 stream.Write(data, 0, data.Length);

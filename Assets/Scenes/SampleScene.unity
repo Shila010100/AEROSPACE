@@ -1604,7 +1604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ffe9e805857f374094bebb2ba28232b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceIP: 192.168.4.1
+  deviceIP: 192.168.178.42
   port: 8080
 --- !u!4 &731810304 stripped
 Transform:
