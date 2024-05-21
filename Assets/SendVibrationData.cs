@@ -6,7 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class SendVibrationData : MonoBehaviour
 {
-    public string deviceIP = "192.168.178.42"; // The IP address of the M5StickC Plus
+    public string deviceIP = "192.168.4.1"; // The IP address of the M5StickC Plus
     public int port = 8080;
     private XRSimpleInteractable simpleInteractable;
 
@@ -56,6 +56,7 @@ public class SendVibrationData : MonoBehaviour
 
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
         request.Method = "GET";
+        Debug.Log("Request created, attempting to get response"); // Added debug log
 
         try
         {
@@ -73,6 +74,7 @@ public class SendVibrationData : MonoBehaviour
         {
             Debug.LogError("Error in sending request: " + ex.Message);
             Debug.LogError("Status: " + ex.Status);
+            Debug.LogError("Response: " + ex.Response);
             if (ex.Response != null)
             {
                 using (var errorResponse = (HttpWebResponse)ex.Response)
