@@ -4,9 +4,16 @@ using WebSocketSharp;
 
 public class WebSocketTest : MonoBehaviour
 {
-    public string serverAddress = "ws://192.168.178.42:81/"; // Update with your ESP32 IP address
+    private string _serverAddress = "ws://192.168.178.42:81/"; // Update with your ESP32 IP address
     private WebSocket ws;
-    private XRBaseInteractor interactor;
+    private XRSimpleInteractable simpleInteractable;
+
+    // Public property to access and modify serverAddress in the Unity Editor
+    public string ServerAddress
+    {
+        get { return _serverAddress; }
+        set { _serverAddress = value; }
+    }
 
     private void Start()
     {
@@ -17,7 +24,7 @@ public class WebSocketTest : MonoBehaviour
 
     private void ConnectWebSocket()
     {
-        ws = new WebSocket(serverAddress);
+        ws = new WebSocket(_serverAddress);
 
         ws.OnOpen += (sender, e) =>
         {
@@ -44,19 +51,19 @@ public class WebSocketTest : MonoBehaviour
 
     private void SetupXRInteraction()
     {
-        interactor = GetComponent<XRBaseInteractor>();
+        simpleInteractable = GetComponent<XRSimpleInteractable>();
 
         // Subscribe to poke events
-        interactor.onSelectEntered.AddListener(OnPokeEnter);
-        interactor.onSelectExited.AddListener(OnPokeExit);
+        simpleInteractable.onSelectEntered.AddListener(OnPokeEnter);
+        simpleInteractable.onSelectExited.AddListener(OnPokeExit);
     }
 
-    private void OnPokeEnter(XRBaseInteractable interactable)
+    private void OnPokeEnter(XRBaseInteractor interactor)
     {
         SendVibrationCommand();
     }
 
-    private void OnPokeExit(XRBaseInteractable interactable)
+    private void OnPokeExit(XRBaseInteractor interactor)
     {
         // No action needed when poke interaction ends
     }
