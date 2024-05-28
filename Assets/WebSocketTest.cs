@@ -1,34 +1,25 @@
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 using WebSocketSharp;
 
 public class WebSocketTest : MonoBehaviour
 {
-    private string _serverAddress = "ws://192.168.178.42:81/"; // Update with your ESP32 IP address
+    public string serverAddress = "ws://192.168.178.42:80/"; // Replace with your WebSocket server address
     private WebSocket ws;
-    private XRSimpleInteractable simpleInteractable;
-
-    // Public property to access and modify serverAddress in the Unity Editor
-    public string ServerAddress
-    {
-        get { return _serverAddress; }
-        set { _serverAddress = value; }
-    }
 
     private void Start()
     {
         Debug.Log("Testing WebSocket request");
         ConnectWebSocket();
-        SetupXRInteraction();
     }
 
     private void ConnectWebSocket()
     {
-        ws = new WebSocket(_serverAddress);
+        ws = new WebSocket(serverAddress);
 
         ws.OnOpen += (sender, e) =>
         {
             Debug.Log("WebSocket connected");
+            SendVibrationCommand();
         };
 
         ws.OnMessage += (sender, e) =>
@@ -46,35 +37,29 @@ public class WebSocketTest : MonoBehaviour
             Debug.Log("WebSocket closed");
         };
 
-        ws.Connect();
+        try
+        {
+            Debug.Log("Attempting to connect to WebSocket server at " + serverAddress);
+            ws.Connect();
+            Debug.Log("WebSocket Connect called");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("WebSocket connection failed: " + ex.Message);
+        }
     }
 
-    private void SetupXRInteraction()
-    {
-        simpleInteractable = GetComponent<XRSimpleInteractable>();
-
-        // Subscribe to poke events
-        simpleInteractable.onSelectEntered.AddListener(OnPokeEnter);
-        simpleInteractable.onSelectExited.AddListener(OnPokeExit);
-    }
-
-    private void OnPokeEnter(XRBaseInteractor interactor)
-    {
-        SendVibrationCommand();
-    }
-
-    private void OnPokeExit(XRBaseInteractor interactor)
-    {
-        // No action needed when poke interaction ends
-    }
-
-    public void SendVibrationCommand()
+    private void SendVibrationCommand()
     {
         if (ws != null && ws.IsAlive)
         {
-            byte[] intensities = { 255, 0, 0 }; // Example intensities
+            byte[] intensities = { 255, 100, 100 }; // Example intensities
             ws.Send(intensities);
             Debug.Log("Sent binary message to server: " + string.Join(",", intensities));
+        }
+        else
+        {
+            Debug.LogError("WebSocket is not connected");
         }
     }
 
