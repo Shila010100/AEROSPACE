@@ -4,6 +4,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class SendVibrationOnHover : MonoBehaviour
 {
     private WebSocketConnectionManager webSocketManager;
+    private float lastSentTime = 0.0f;
+    private float sendInterval = 0.5f; // Interval in seconds, adjust as needed
 
     void Start()
     {
@@ -14,13 +16,19 @@ public class SendVibrationOnHover : MonoBehaviour
         XRBaseInteractable interactable = GetComponent<XRBaseInteractable>();
         if (interactable != null)
         {
+            interactable.hoverEntered.RemoveListener(HandleHoverEntered); // Ensure no duplicates
             interactable.hoverEntered.AddListener(HandleHoverEntered);
         }
     }
 
     private void HandleHoverEntered(HoverEnterEventArgs arg)
     {
-        SendVibrationCommand();
+        // Check if enough time has elapsed since the last sent vibration command
+        if (Time.time - lastSentTime > sendInterval)
+        {
+            lastSentTime = Time.time; // Update last sent time
+            SendVibrationCommand();
+        }
     }
 
     private void SendVibrationCommand()
@@ -28,8 +36,17 @@ public class SendVibrationOnHover : MonoBehaviour
         if (webSocketManager != null && webSocketManager.ws != null && webSocketManager.ws.IsAlive)
         {
             byte[] intensities = { 255, 100, 100 }; // Example intensities
-            webSocketManager.ws.Send(intensities);
-            Debug.Log("Sent vibration command: " + string.Join(",", intensities));
+            webSocketManager.ws.SendAsync(intensities, completed =>
+            {
+                if (completed)
+                {
+                    Debug.Log("Vibration data sent successfully: " + string.Join(",", intensities));
+                }
+                else
+                {
+                    Debug.LogError("Failed to send vibration data.");
+                }
+            });
         }
         else
         {
