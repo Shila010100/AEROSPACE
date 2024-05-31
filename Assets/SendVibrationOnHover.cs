@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using System.Threading.Tasks;
 
 public class SendVibrationOnHover : MonoBehaviour
 {
     private WebSocketConnectionManager webSocketManager;
     private float lastSentTime = 0.0f;
-    private float sendInterval = 0.5f; // Interval in seconds, adjust as needed
+    private float sendInterval = 0.017f; // Interval in seconds, adjust as needed
 
     void Start()
     {
@@ -27,7 +28,7 @@ public class SendVibrationOnHover : MonoBehaviour
         if (Time.time - lastSentTime > sendInterval)
         {
             lastSentTime = Time.time; // Update last sent time
-            SendVibrationCommand();
+            Task.Run(() => SendVibrationCommand());  // Offload the vibration command to a separate thread
         }
     }
 
