@@ -3,7 +3,7 @@ using WebSocketSharp;
 
 public class WebSocketConnectionManager : MonoBehaviour
 {
-    public string serverAddress = "ws://192.168.178.42:80/";
+    private string serverAddress = "ws://192.168.4.1:80/"; // Adjusted for AP mode
     public WebSocket ws;
 
     void Start()

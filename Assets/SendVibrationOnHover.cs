@@ -18,30 +18,49 @@ public class SendVibrationOnHover : MonoBehaviour
         if (interactable != null)
         {
             interactable.hoverEntered.RemoveListener(HandleHoverEntered); // Ensure no duplicates
-            interactable.hoverEntered.AddListener(HandleHoverEntered);
+            interactable.hoverEntered.AddListener(HandleHoverEntered); // Corrected to only add listener to hoverEntered
         }
     }
 
     private void HandleHoverEntered(HoverEnterEventArgs arg)
     {
-        // Check if enough time has elapsed since the last sent vibration command
-        if (Time.time - lastSentTime > sendInterval)
+        if (arg.interactorObject is XRBaseInteractor interactor)
         {
-            lastSentTime = Time.time; // Update last sent time
-            Task.Run(() => SendVibrationCommand());  // Offload the vibration command to a separate thread
+            string interactorName = interactor.name;
+            Debug.Log("Interactor Name: " + interactorName);
+
+            if (Time.time - lastSentTime > sendInterval)
+            {
+                lastSentTime = Time.time; // Update last sent time
+
+                if (interactorName.Contains("Index")) // Assuming naming includes the finger name
+                {
+                    SendVibrationCommand(new byte[] { 0, 255, 0 }); // Index finger
+                }
+                else if (interactorName.Contains("Middle"))
+                {
+                    SendVibrationCommand(new byte[] { 255, 0, 0 }); // Middle finger
+                }
+                else if (interactorName.Contains("Thumb"))
+                {
+                    SendVibrationCommand(new byte[] { 0, 0, 255 }); // Thumb
+                }
+            }
         }
     }
 
-    private void SendVibrationCommand()
+    private void SendVibrationCommand(byte[] intensities)
     {
         if (webSocketManager != null && webSocketManager.ws != null && webSocketManager.ws.IsAlive)
         {
-            byte[] intensities = { 255, 100, 100 }; // Example intensities
+            float sendTime = Time.realtimeSinceStartup;
             webSocketManager.ws.SendAsync(intensities, completed =>
             {
                 if (completed)
                 {
-                    Debug.Log("Vibration data sent successfully: " + string.Join(",", intensities));
+                    float receivedTime = Time.realtimeSinceStartup;
+                    float latency = receivedTime - sendTime;
+                    Debug.Log($"Vibration data sent successfully. Latency: {latency * 1000f} ms");
                 }
                 else
                 {
