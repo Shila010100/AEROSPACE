@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Concurrent;
 using System.Threading;
+using System.Linq;
 
 public class CommandManager : MonoBehaviour
 {
@@ -26,43 +27,50 @@ public class CommandManager : MonoBehaviour
     {
         commandThread = new Thread(ProcessCommands);
         commandThread.Start();
+        Debug.Log("CM: CommandManager thread started.");
     }
 
     private void ProcessCommands()
     {
-        Debug.Log("Command processing thread started.");
+        //Debug.Log("CM: Command processing thread started.");
         while (isRunning)
         {
             if (commandQueue.TryDequeue(out byte[] command))
             {
-                if (WebSocketConnectionManager.Instance != null && WebSocketConnectionManager.Instance.ws.IsAlive)
+                if (command.Any(i => i > 0))  // Check if there's any intensity above zero
                 {
-                    WebSocketConnectionManager.Instance.SendCommand(command); // Directly send command using WebSocket manager
-                    Debug.Log("Processing a dequeued command.");
+                    if (WebSocketConnectionManager.Instance != null && WebSocketConnectionManager.Instance.ws.IsAlive)
+                    {
+                        WebSocketConnectionManager.Instance.SendCommand(command); // Directly send command using WebSocket manager
+                        //Debug.Log($"CM: Processing a dequeued command with intensities: {string.Join(", ", command)}");
+                    }
+                    else
+                    {
+                        //Debug.LogError("CM: WebSocket not available or disconnected.");
+                    }
                 }
                 else
                 {
-                    Debug.LogError("WebSocket not available or disconnected.");
+                    //Debug.Log("CM: Dequeued command with no intensity or failed to dequeue.");
                 }
             }
             Thread.Sleep(1); // Manage CPU usage
         }
     }
 
+
+
     public void EnqueueCommand(byte[] command)
     {
         float enqueueTime = Time.realtimeSinceStartup;
         commandQueue.Enqueue(command);
-        Debug.Log($"Command enqueued at {enqueueTime * 1000f} ms.");
+        //Debug.Log($"CM: Command enqueued at {enqueueTime * 1000f} ms with intensities: {string.Join(", ", command)}");  // Ensure this logs correct values
     }
 
     void OnDestroy()
     {
         isRunning = false;
-        if (commandThread != null)
-        {
-            commandThread.Join();
-            Debug.Log("Command processing thread stopped.");
-        }
+        commandThread.Join(); // Ensure the thread is properly closed
+        Debug.Log("CM: Command processing thread terminated.");
     }
 }

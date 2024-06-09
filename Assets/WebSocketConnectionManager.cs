@@ -33,7 +33,7 @@ public class WebSocketConnectionManager : MonoBehaviour
         ws.OnError += OnErrorHandler;
         ws.OnClose += OnCloseHandler;
 
-        Debug.Log("Attempting to connect to WebSocket server at " + serverAddress);
+        Debug.Log("WSCM: Attempting to connect to WebSocket server at " + serverAddress);
         ws.ConnectAsync(); // Use asynchronous connection to avoid blocking the main thread
     }
 
@@ -43,40 +43,40 @@ public class WebSocketConnectionManager : MonoBehaviour
         {
             ws.SendAsync(command, completed =>
             {
-                if (completed)
-                    Debug.Log("Command sent successfully.");
-                else
-                    Debug.LogError("Failed to send command.");
+                if (!completed)
+                {
+                    // Handle failed send if necessary, but no logging
+                }
             });
         }
         else
         {
-            Debug.LogError("WebSocket is not connected or not alive.");
+            // Handle WebSocket not connected or alive if necessary, but no logging
         }
     }
 
     private void OnOpenHandler(object sender, System.EventArgs e)
     {
-        Debug.Log("WebSocket connected");
+        Debug.Log("WSCM: WebSocket connected");
     }
 
     private void OnMessageHandler(object sender, MessageEventArgs e)
     {
-        Debug.Log("Received message from server: " + e.Data);
+        //Debug.Log("WSCM: Received message from server: " + e.Data);
     }
 
     private void OnErrorHandler(object sender, ErrorEventArgs e)
     {
-        Debug.LogError("WebSocket error: " + e.Message);
+        //Debug.LogError("WSCM: WebSocket error: " + e.Message);
         Invoke("ConnectWebSocket", 5); // 5-second delay before trying to reconnect
     }
 
     private void OnCloseHandler(object sender, CloseEventArgs e)
     {
-        Debug.Log($"WebSocket closed, reason: {e.Reason}");
+        Debug.Log($"WSCM: WebSocket closed, reason: {e.Reason}");
         if (!e.WasClean) // Check if the close was unexpected
         {
-            Debug.Log("Unexpected disconnect. Attempting to reconnect...");
+            Debug.Log("WSCM: Unexpected disconnect. Attempting to reconnect...");
             ConnectWebSocket();
         }
     }
