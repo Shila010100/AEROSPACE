@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class HandSelectionManager : MonoBehaviour
 {
-    public SendVibrationOnHover vibrationScript; // Reference to the SendVibrationOnHover script
+    private List<SendVibrationOnHover> vibrationScripts; // List to hold multiple instances
 
     // These are the buttons in your UI
     public Button leftHandButton;
@@ -11,29 +12,26 @@ public class HandSelectionManager : MonoBehaviour
 
     void Start()
     {
-        if (leftHandButton == null || rightHandButton == null)
+        vibrationScripts = new List<SendVibrationOnHover>(FindObjectsOfType<SendVibrationOnHover>()); // Find all instances and add them to the list
+
+        if (vibrationScripts.Count == 0)
         {
-            Debug.LogError("One or more buttons are not assigned in the inspector.");
-            return;
+            Debug.LogError("No SendVibrationOnHover scripts found in the scene.");
         }
 
-        // Assigning button click listeners
         leftHandButton.onClick.AddListener(() => SetHandMode(false)); // Set mode to left hand
         rightHandButton.onClick.AddListener(() => SetHandMode(true)); // Set mode to right hand
-
-        Debug.Log("Button listeners assigned correctly.");
     }
 
     public void SetHandMode(bool isRightHand)
     {
-        if (vibrationScript != null)
+        foreach (var script in vibrationScripts)
         {
-            vibrationScript.SetHandMode(isRightHand); // Call the method on SendVibrationOnHover script
-            Debug.Log("Hand mode set to: " + (isRightHand ? "Right" : "Left"));
+            if (script != null)
+            {
+                script.SetHandMode(isRightHand);
+            }
         }
-        else
-        {
-            Debug.LogError("VibrationScript reference not set on HandSelectionManager.");
-        }
+        Debug.Log("Hand mode set to: " + (isRightHand ? "Right" : "Left"));
     }
 }
