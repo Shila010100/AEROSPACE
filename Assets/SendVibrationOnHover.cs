@@ -10,7 +10,7 @@ public class SendVibrationOnHover : MonoBehaviour
     private Dictionary<string, byte[]> fingerIntensities = new Dictionary<string, byte[]>();
     private bool interactionInProgress = false;
     public bool isRightHandMode = true; // Default to right hand, toggle through UI
-    private float interactionDuration = 0.1f; // Duration to wait for additional fingers
+    private float interactionDuration = 0.25f; // Duration to wait for additional fingers
 
     void Start()
     {
