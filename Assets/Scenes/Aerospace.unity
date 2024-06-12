@@ -2088,7 +2088,7 @@ GameObject:
   - component: {fileID: 60304988}
   - component: {fileID: 60304987}
   m_Layer: 5
-  m_Name: StoneCounter
+  m_Name: StoneCounter RightWrist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3095,7 +3095,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &109221735
 Transform:
   m_ObjectHideFlags: 0
@@ -19141,9 +19141,9 @@ RectTransform:
   - {fileID: 1673894991}
   m_Father: {fileID: 1076150528}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 150, y: -250}
   m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &659577425 stripped
@@ -23524,7 +23524,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.105, y: 0.51}
-  m_SizeDelta: {x: 300, y: 0}
+  m_SizeDelta: {x: 300, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &817751881
 MonoBehaviour:
@@ -29645,7 +29645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1076150528
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29666,7 +29666,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0.642, y: 1.119}
-  m_SizeDelta: {x: 300, y: 0}
+  m_SizeDelta: {x: 300, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1076150529
 MonoBehaviour:
@@ -36683,9 +36683,9 @@ RectTransform:
   - {fileID: 713159324}
   m_Father: {fileID: 817751880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 150, y: -250}
   m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1351143764
@@ -38096,7 +38096,7 @@ GameObject:
   - component: {fileID: 1368792237}
   - component: {fileID: 1368792236}
   m_Layer: 5
-  m_Name: StoneCounter
+  m_Name: StoneCounter Left Wrist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38925,7 +38925,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1424316876
 Transform:
   m_ObjectHideFlags: 0
@@ -46613,7 +46613,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5fdb8b3c54cf7438ca6c23f0b293e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionText: {fileID: 1065632621}
+  interactionText1: {fileID: 1368792236}
+  interactionText2: {fileID: 60304987}
 --- !u!4 &1702254686
 Transform:
   m_ObjectHideFlags: 0
@@ -47648,9 +47649,9 @@ RectTransform:
   - {fileID: 1920578323}
   m_Father: {fileID: 1775970692}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 150, y: -250}
   m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1718036453
@@ -48950,7 +48951,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.113, y: 0.57}
-  m_SizeDelta: {x: 300, y: 0}
+  m_SizeDelta: {x: 300, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1775970693
 MonoBehaviour:

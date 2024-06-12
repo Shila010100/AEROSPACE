@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 public class StoneInteractionManager : MonoBehaviour
 {
-    public TextMeshProUGUI interactionText;
+    public TextMeshProUGUI interactionText1; // First text display
+    public TextMeshProUGUI interactionText2; // Second text display
     private Dictionary<string, int> stoneCounts = new Dictionary<string, int>();
     private Dictionary<string, HashSet<int>> uniqueInteractions = new Dictionary<string, HashSet<int>>();
     private Dictionary<string, int> interactedStones = new Dictionary<string, int>();
@@ -58,9 +59,11 @@ public class StoneInteractionManager : MonoBehaviour
         foreach (var stoneType in stoneCounts.Keys)
         {
             displayText += $": {interactedStones[stoneType]} / {stoneCounts[stoneType]}\n";
-            // original text displayText += $"{stoneType}: {interactedStones[stoneType]} / {stoneCounts[stoneType]}\n";
         }
-        interactionText.text = displayText;
+        if (interactionText1 != null)
+            interactionText1.text = displayText;
+        if (interactionText2 != null)
+            interactionText2.text = displayText;
     }
 
     private string GetStoneType(string stoneName)
