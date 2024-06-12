@@ -57,7 +57,8 @@ public class StoneInteractionManager : MonoBehaviour
         string displayText = "";
         foreach (var stoneType in stoneCounts.Keys)
         {
-            displayText += $"{stoneType}: {interactedStones[stoneType]} / {stoneCounts[stoneType]}\n";
+            displayText += $": {interactedStones[stoneType]} / {stoneCounts[stoneType]}\n";
+            // original text displayText += $"{stoneType}: {interactedStones[stoneType]} / {stoneCounts[stoneType]}\n";
         }
         interactionText.text = displayText;
     }
