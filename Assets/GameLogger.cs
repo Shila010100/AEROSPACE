@@ -25,6 +25,7 @@ public class GameLogger : MonoBehaviour
     private void LogGameStart()
     {
         string logText = "Game started at: " + System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\n";
+        Debug.Log("GL: Starting game logging.");
         WriteToFile(logText);
     }
 
@@ -45,6 +46,7 @@ public class GameLogger : MonoBehaviour
         logText += $"Used Hand: {handSelectionManager.CurrentHandMode}\n";
         logText += $"Elapsed Time: {elapsedTime} seconds\n";
         logText += $"Stone Counts: {GetStoneCountLog()}\n";
+        Debug.Log("GL: Logging game end.");
         WriteToFile(logText);
     }
 
@@ -63,6 +65,6 @@ public class GameLogger : MonoBehaviour
     private void WriteToFile(string text)
     {
         File.AppendAllText(filePath, text);
-        Debug.Log($"Log written to {filePath}");
+        Debug.Log($"GL: Log written to {filePath}");
     }
 }

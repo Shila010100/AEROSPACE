@@ -5,13 +5,14 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     public Button startButton; // Reference to the UI button that starts the timer
-    public static float timeValue = 60 * 5; // Duration in seconds, here set to 5 minutes
-    public float initialTime = timeValue;
+    public static float timeValue; // Duration in seconds, here set to 5 minutes
+    public float initialTime = 60 * 5;
     public TextMeshProUGUI timerText; // Reference to the TextMeshProUGUI component to display the timer
     private bool timerIsActive = false; // Controls whether the timer is active
 
     void Start()
     {
+        timeValue = initialTime;
         startButton.onClick.AddListener(StartTimer); // Add an event listener to the start button
         DisplayTime(timeValue); // Initial display of the time
     }
@@ -26,9 +27,7 @@ public class Timer : MonoBehaviour
         }
         else if (timeValue <= 0)
         {
-            timerIsActive = false; // Stop the timer when it reaches 0
-            timeValue = 0;
-            DisplayTime(timeValue); // Ensure the display is updated to show 00:00
+            EndTimer();
         }
     }
 
@@ -42,6 +41,15 @@ public class Timer : MonoBehaviour
     public void StartTimer()
     {
         timerIsActive = true; // Set the timer active
+        timeValue = initialTime; // Reset the timer to the full initial time when restarted
+        DisplayTime(timeValue); // Update the display when restarted
+    }
+
+    private void EndTimer()
+    {
+        timerIsActive = false; // Stop the timer when it reaches 0
+        timeValue = 0;
+        DisplayTime(timeValue); // Ensure the display is updated to show 00:00
     }
     public float GetElapsedTime()
     {
