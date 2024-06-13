@@ -9,6 +9,7 @@ public class HandSelectionManager : MonoBehaviour
     // These are the buttons in your UI
     public Button leftHandButton;
     public Button rightHandButton;
+    public string CurrentHandMode { get; private set; } // Initially undefined
 
     void Start()
     {
@@ -25,6 +26,7 @@ public class HandSelectionManager : MonoBehaviour
 
     public void SetHandMode(bool isRightHand)
     {
+        CurrentHandMode = isRightHand ? "Right" : "Left";
         foreach (var script in vibrationScripts)
         {
             if (script != null)

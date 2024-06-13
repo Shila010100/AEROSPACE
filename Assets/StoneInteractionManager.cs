@@ -7,9 +7,9 @@ public class StoneInteractionManager : MonoBehaviour
 {
     public TextMeshProUGUI interactionText1; // First text display
     public TextMeshProUGUI interactionText2; // Second text display
-    private Dictionary<string, int> stoneCounts = new Dictionary<string, int>();
-    private Dictionary<string, HashSet<int>> uniqueInteractions = new Dictionary<string, HashSet<int>>();
-    private Dictionary<string, int> interactedStones = new Dictionary<string, int>();
+    public Dictionary<string, int> stoneCounts = new Dictionary<string, int>();
+    public Dictionary<string, HashSet<int>> uniqueInteractions = new Dictionary<string, HashSet<int>>();
+    public Dictionary<string, int> interactedStones = new Dictionary<string, int>();
 
     void Start()
     {
@@ -77,4 +77,14 @@ public class StoneInteractionManager : MonoBehaviour
         else
             return "Unknown";
     }
+    public string GetStoneCountLog()
+    {
+        string result = "";
+        foreach (var stoneType in stoneCounts.Keys)
+        {
+            result += $"{stoneType}: {interactedStones[stoneType]} / {stoneCounts[stoneType]}\n";
+        }
+        return result;
+    }
+
 }

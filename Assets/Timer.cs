@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     public Button startButton; // Reference to the UI button that starts the timer
-    public float timeValue = 60 * 5; // Duration in seconds, here set to 5 minutes
+    public static float timeValue = 60 * 5; // Duration in seconds, here set to 5 minutes
+    public float initialTime = timeValue;
     public TextMeshProUGUI timerText; // Reference to the TextMeshProUGUI component to display the timer
     private bool timerIsActive = false; // Controls whether the timer is active
 
@@ -41,5 +42,9 @@ public class Timer : MonoBehaviour
     public void StartTimer()
     {
         timerIsActive = true; // Set the timer active
+    }
+    public float GetElapsedTime()
+    {
+        return initialTime - timeValue; // Ensure 'initialTime' is set when the timer starts
     }
 }
